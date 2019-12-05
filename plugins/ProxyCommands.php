@@ -5,7 +5,7 @@
  * @var Plugin $this
  */
 use Phpcraft\
-{Account, ClientConnection, Plugin};
+{Account, ChatComponent, ClientConnection, Plugin};
 $this->registerCommand("connect", function(ClientConnection $sender, string $address, string $account_arg = "")
 {
 	global $account;
@@ -25,14 +25,11 @@ $this->registerCommand("connect", function(ClientConnection $sender, string $add
 		}
 		else
 		{
-			$sender->sendMessage([
-				"text" => "$account is not a registered Minecraft account, so the UUID can't be provided to the server.",
-				"color" => "yellow"
-			]);
+			$sender->sendMessage(ChatComponent::text("$account_arg is not a registered Minecraft account, so the UUID can't be provided to the server.")->yellow());
 		}
 	}
 	global $server;
-	$server->connectDownstream($sender, $address, $account, $join_specs);
+	$server->connectDownstream($sender, $address, $account_instance, $join_specs);
 })
 	 ->registerCommand("disconnect", function(ClientConnection $sender)
 	 {

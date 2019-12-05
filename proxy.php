@@ -9,7 +9,7 @@ require "vendor/autoload.php";
 use pas\
 {pas, stdin};
 use Phpcraft\
-{Account, ClientConnection, Event\ProxyJoinEvent, PluginManager, ProxyServer, Versions};
+{Account, ChatComponent, ClientConnection, Event\ProxyJoinEvent, PluginManager, ProxyServer, Versions};
 echo "Would you like to provide an account to be possesed? [y/N] ";
 stdin::init(null, false);
 if(stdin::getNextLine() == "y")
@@ -32,7 +32,7 @@ $server->join_function = function(ClientConnection $con) use (&$account, &$serve
 {
 	if(!Versions::protocolSupported($con->protocol_version))
 	{
-		$con->disconnect(["text" => "You're using an incompatible version."]);
+		$con->disconnect("You're using an incompatible version.");
 		return;
 	}
 	if(PluginManager::fire(new ProxyJoinEvent($server, $con)))
@@ -44,11 +44,11 @@ $server->join_function = function(ClientConnection $con) use (&$account, &$serve
 	$con->startPacket("clientbound_chat_message");
 	if($account instanceof Account)
 	{
-		$con->writeString('{"text":"Welcome to this Phpcraft proxy, '.$con->username.'. This proxy is authenticated as '.$account->username.'. Use /proxy:connect <ip> to connect to a Minecraft server."}');
+		$con->writeChat(ChatComponent::text("Welcome to this Phpcraft proxy, ".$con->username.". This proxy is authenticated as ".$account->username.". Use /proxy:connect <ip> to connect to a Minecraft server."));
 	}
 	else
 	{
-		$con->writeString('{"text":"Welcome to this Phpcraft proxy, '.$con->username.'. Use /proxy:connect <ip> <username> to connect to a reverse proxy-compatible server."}');
+		$con->writeString(ChatComponent::text("Welcome to this Phpcraft proxy, ".$con->username.". Use /proxy:connect <ip> <username> to connect to a reverse proxy-compatible server."));
 	}
 	$con->writeByte(1);
 	$con->send();
