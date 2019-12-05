@@ -1,6 +1,7 @@
 {
 	"require": {
 		"php": "^7.1",
+		"ext-json": "*",
 		"craft/core": "^0.3"
 	}
 }
