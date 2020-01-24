@@ -6,8 +6,8 @@ if(empty($argv))
 	die("This is for PHP-CLI. Connect to your server via SSH and use `php proxy.php`.\n");
 }
 require "vendor/autoload.php";
-use pas\
-{pas, stdin};
+use Asyncore\
+{Asyncore, stdin};
 use Phpcraft\
 {Account, ChatComponent, ClientConnection, Event\ProxyJoinEvent, PluginManager, ProxyServer, Versions};
 echo "Would you like to provide an account to be possesed? [y/N] ";
@@ -53,5 +53,5 @@ $server->join_function = function(ClientConnection $con) use (&$account, &$serve
 	$con->writeByte(1);
 	$con->send();
 };
-pas::loop();
+Asyncore::loop();
 echo "Proxy is not listening on any ports and has no clients, so it's shutting down.\n";
