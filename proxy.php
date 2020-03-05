@@ -48,7 +48,7 @@ $server->join_function = function(ClientConnection $con) use (&$account, &$serve
 	}
 	else
 	{
-		$con->writeString(ChatComponent::text("Welcome to this Phpcraft proxy, ".$con->username.". Use /proxy:connect <ip> <username> to connect to a reverse proxy-compatible server."));
+		$con->writeChat(ChatComponent::text("Welcome to this Phpcraft proxy, ".$con->username.". Use /proxy:connect <ip> <username> to connect to a reverse proxy-compatible server."));
 	}
 	$con->writeByte(1);
 	$con->send();
